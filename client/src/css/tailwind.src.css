@@ -1,0 +1,10 @@
+@tailwind preflight;
+@tailwind components;
+@tailwind utilities;
+
+.is-invalid {
+	@apply bg-red-lightest mb-3;
+}
+.invalid-message {
+	@apply text-red text-xs italic;
+}

@@ -1,0 +1,17 @@
+.page {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+.content {
+	flex: 1;
+}
+.max-w-screen-xl {
+	max-width: 1280px;
+}
