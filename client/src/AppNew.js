@@ -13,12 +13,9 @@ import PrivateRoute from './components/common/PrivateRoute';
 import Landing from './components/layout/Landing';
 import RegisterLayout from './components/layout/auth/RegisterLayout';
 import LoginLayout from './components/layout/auth/LoginLayout';
-import DashboardLayout from './components/layout/dashboard/DashboardLayout';
-import CreateProfileLayout from './components/layout/create-profile/CreateProfileLayout';
-import EditProfileLayout from './components/layout/edit-profile/EditProfileLayout';
-import AddExperienceLayout from './components/layout/add-credentials/AddExperienceLayout';
-import AddEducationLayout from './components/layout/add-credentials/AddEducationLayout';
-import ProfilesLayout from './components/layout/profiles/ProfilesLayout';
+import Dashboard from './components/dashboard/Dashboard';
+import CreateProfile from './components/create-profile/CreateProfile';
+import EditProfile from './components/edit-profile/EditProfile';
 
 import './App.css';
 
@@ -52,40 +49,25 @@ class App extends Component {
 						<Route exact path="/" component={Landing} />
 						<Route exact path="/register" component={RegisterLayout} />
 						<Route exact path="/login" component={LoginLayout} />
-						<Route exact path="/profiles" component={ProfilesLayout} />
 						<Switch>
 							<PrivateRoute
 								exact
 								path="/dashboard"
-								component={DashboardLayout}
+								component={Dashboard}
 							/>
 						</Switch>
 						<Switch>
 							<PrivateRoute
 								exact
 								path="/create-profile"
-								component={CreateProfileLayout}
+								component={CreateProfile}
 							/>
 						</Switch>
 						<Switch>
 							<PrivateRoute
 								exact
 								path="/edit-profile"
-								component={EditProfileLayout}
-							/>
-						</Switch>
-						<Switch>
-							<PrivateRoute
-								exact
-								path="/add-experience"
-								component={AddExperienceLayout}
-							/>
-						</Switch>
-						<Switch>
-							<PrivateRoute
-								exact
-								path="/add-education"
-								component={AddEducationLayout}
+								component={EditProfile}
 							/>
 						</Switch>
 					</div>

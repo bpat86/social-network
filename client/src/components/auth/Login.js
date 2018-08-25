@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import { loginUser } from '../../actions/authActions';
 import { Link } from 'react-router-dom';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class Login extends Component {
 	constructor(props) {
@@ -53,55 +53,42 @@ class Login extends Component {
 
 		return (
 			<div>
-				<div className="flex w-full items-center justify-center min-h-screen max-w-sm mx-auto">
+				<div className="flex items-center text-left max-w-sm mx-auto">
 					<form className="bg-white w-full px-8 pt-6 pb-8 mb-4" onSubmit={this.onSubmit}>
-						<div className="mb-4">
-							<label
-								className="block text-grey-darker text-sm font-bold mb-2"
-								htmlFor="username"
-								>
-								Email
+						<TextFieldGroup
+							placeholder="Email Address"
+							label="Email"
+							name="email"
+							type="email"
+							value={email}
+							onChange={this.onChange}
+							error={errors.email}
+						/>
+						<TextFieldGroup
+							placeholder="Password"
+							label="Password"
+							name="password"
+							type="password"
+							value={password}
+							onChange={this.onChange}
+							error={errors.password}
+						/>
+						<div className="flex items-center justify-between mt-8">
+							<label className="md:w-2/3 block text-grey-darker hover:text-black font-medium">
+								<input className="mr-2 leading-tight" type="checkbox" />
+								<span className="text-sm">Remember this device</span>
 							</label>
-							<input
-								className={classnames('shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline', {'is-invalid': errors.email})}
-								id="email"
-								type="email"
-								name="email"
-								value={email}
-								onChange={this.onChange}
-								placeholder="Email"
-								/>
-							{errors.email && (
-								<p className="invalid-message">{errors.email}</p>
-							)}
 						</div>
-						<div className="mb-4">
-							<label
-								className="block text-grey-darker text-sm font-bold mb-2"
-								htmlFor="password"
-								>
-								Password
-							</label>
-							<input
-								className={classnames('shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline', {'is-invalid': errors.password})}
-								id="password"
-								name="password"
-								type="password"
-								value={password}
-								onChange={this.onChange}
-								placeholder="******************"
-								/>
-							{errors.password && (
-								<p className="invalid-message">{errors.password}</p>
-							)}
-						</div>
-						<div className="flex items-center justify-between">
+						<div className="flex items-center justify-between mt-8">
 							<button
-								className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-								type="submit">
-								Sign In
+								className="bg-indigo-dark text-grey-lightest bg-transparent rounded font-medium text-center leading-tight h-12 m-0 px-4 py-2 cursor-pointer focus:outline-none w-full"
+								type="submit"
+								>
+								Login <span className="ml-1">→</span>
 							</button>
-							<Link to="/" className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="#">
+						</div>
+						<div className="flex items-center justify-end mt-8">
+							<Link to="/" className="inline-block align-baseline font-medium text-sm text-grey-darker hover:text-black" href="#">
 							Forgot Password?
 							</Link>
 						</div>

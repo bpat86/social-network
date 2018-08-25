@@ -1,168 +1,123 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import { registerUser } from '../../actions/authActions';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class Register extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            email: '',
-            password: '',
-            passwordConfirmed: '',
-            errors: {}
-        };
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: '',
+			email: '',
+			password: '',
+			passwordConfirmed: '',
+			errors: {}
+		};
+	}
 
-    componentDidMount() {
-        if (this.props.auth.isAuthenticated) {
-            this.props.history.push('/dashboard');
-        }
-    }
+	componentDidMount() {
+		if (this.props.auth.isAuthenticated) {
+			this.props.history.push('/dashboard');
+		}
+	}
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.errors) {
-            this.setState({
-                errors: nextProps.errors
-            });
-        }
-    }
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.errors) {
+			this.setState({
+				errors: nextProps.errors
+			});
+		}
+	}
 
-    onChange = e => this.setState({
-        [e.target.name]: e.target.value
-    });
+	onChange = e => this.setState({
+		[e.target.name]: e.target.value
+	});
 
-    onSubmit = e => {
-        const { name, email, password, passwordConfirmed } = this.state;
+	onSubmit = e => {
+		const { name, email, password, passwordConfirmed } = this.state;
 
-        e.preventDefault();
+		e.preventDefault();
 
-        const newUser = {
-            name,
-            email,
-            password,
-            passwordConfirmed
-        }
+		const newUser = {
+			name,
+			email,
+			password,
+			passwordConfirmed
+		}
 
-        this.props.registerUser(newUser, this.props.history);
-    }
+		this.props.registerUser(newUser, this.props.history);
+	}
 
-    render() {
-        const { name, email, password, passwordConfirmed, errors } = this.state;
+	render() {
+		const { name, email, password, passwordConfirmed, errors } = this.state;
 
-        return (
-            <div>
-                <div className="flex w-full items-center justify-center min-h-screen max-w-sm mx-auto">
-                    <form className="bg-white w-full px-8 pt-6 pb-8 mb-4" onSubmit={this.onSubmit}>
-                        <div className="mb-4">
-                            <label
-                                className="block text-grey-darker text-sm font-bold mb-2"
-                                htmlFor="username"
-                                >
-                                Name
-                            </label>
-                            <input
-                                className={classnames('shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline', {'is-invalid': errors.name})}
-                                id="name"
-                                name="name"
-                                type="text"
-                                value={name}
-                                onChange={this.onChange}
-                                placeholder="Name"
-                                />
-                            {errors.name && (
-                                <p className="invalid-message">{errors.name}</p>
-                            )}
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                className="block text-grey-darker text-sm font-bold mb-2"
-                                htmlFor="username"
-                                >
-                                Email
-                            </label>
-                            <input
-                                className={classnames('shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline', {'is-invalid': errors.email})}
-                                id="email"
-                                type="email"
-                                name="email"
-                                value={email}
-                                onChange={this.onChange}
-                                placeholder="Email"
-                                />
-                            {errors.email && (
-                                <p className="invalid-message">{errors.email}</p>
-                            )}
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                className="block text-grey-darker text-sm font-bold mb-2"
-                                htmlFor="password"
-                                >
-                                Password
-                            </label>
-                            <input
-                                className={classnames('shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline', {'is-invalid': errors.password})}
-                                id="password"
-                                name="password"
-                                type="password"
-                                value={password}
-                                onChange={this.onChange}
-                                placeholder="******************"
-                                />
-                            { errors.password && (
-                                <p className="invalid-message">{errors.password}</p>
-                            )}
-                        </div>
-                        <div className="mb-6">
-                            <label
-                                className="block text-grey-darker text-sm font-bold mb-2"
-                                htmlFor="password"
-                                >
-                                Confirm Password
-                            </label>
-                            <input
-                                className={classnames('shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline', {'is-invalid': errors.passwordConfirmed})}
-                                id="passwordConfirmed"
-                                name="passwordConfirmed"
-                                type="password"
-                                value={passwordConfirmed}
-                                onChange={this.onChange}
-                                placeholder="******************"
-                                />
-                            { errors.passwordConfirmed && (
-                                <p className="invalid-message">{errors.passwordConfirmed}</p>
-                            )}
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <button
-                                className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                type="submit">
-                                Sign In
-                            </button>
-                            <Link to="/" className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="#">
-                            Forgot Password?
-                            </Link>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        );
-    }
+		return (
+			<div>
+				<div className="flex items-center text-left max-w-sm mx-auto">
+					<form className="bg-white w-full px-8 pt-6 pb-8 mb-4" onSubmit={this.onSubmit}>
+						<TextFieldGroup
+							placeholder="Name"
+							label="Name"
+							name="name"
+							type="text"
+							value={name}
+							onChange={this.onChange}
+							error={errors.name}
+						/>
+						<TextFieldGroup
+							placeholder="Email Address"
+							label="Email"
+							name="email"
+							type="email"
+							value={email}
+							onChange={this.onChange}
+							info="This site uses Gravitar so if you want a profile image, use a Gravatar email"
+							error={errors.email}
+						/>
+						<TextFieldGroup
+							placeholder="Password"
+							label="Password"
+							name="password"
+							type="password"
+							value={password}
+							onChange={this.onChange}
+							error={errors.password}
+						/>
+						<TextFieldGroup
+							placeholder="Confirm Password"
+							label="Confirm Password"
+							name="passwordConfirmed"
+							type="password"
+							value={passwordConfirmed}
+							onChange={this.onChange}
+							error={errors.passwordConfirmed}
+						/>
+						<div className="flex items-center justify-between mt-12">
+							<button
+								className="bg-indigo-dark text-grey-lightest bg-transparent rounded font-medium text-center leading-tight h-12 m-0 px-4 py-2 cursor-pointer focus:outline-none w-full"
+								type="submit"
+								>
+								Create Account <span className="ml-1">→</span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		);
+	}
 }
 
 Register.propTypes = {
-    registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+	registerUser: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth,
-    errors: state.errors
+	auth: state.auth,
+	errors: state.errors
 });
 
 export default connect(mapStateToProps, { registerUser })(withRouter(Register));

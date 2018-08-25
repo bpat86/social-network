@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 .is-invalid {
-	@apply bg-red-lightest mb-3;
+	@apply bg-red-lightest border-red-lightest;
 }
 .invalid-message {
-	@apply text-red text-xs italic;
+	@apply block pt-3 text-xs text-red-light;
+}
+.text-muted {
+	@apply leading-normal opacity-50;
+}
+.disabled {
+	@apply opacity-50 cursor-not-allowed;
+}
+
+.container {
+	@apply flex-1 w-full max-w-lg relative text-left mx-auto mt-24 px-4;
 }
