@@ -10,13 +10,14 @@ class Education extends Component {
 	}
 
     render() {
-    	const education = this.props.education.map(edu => (
+    	const { education } = this.props;
+    	const educationHistory = education.map(edu => (
 			<div key={edu._id}>
-				<h3 className="text-xl font-bold text-grey-darkest py-1">{edu.degree}</h3>
-				<span className="inline-block w-full text-lg font-medium text-grey-darkest py-1">{edu.school}</span>
+				<h3 className="text-lg font-bold text-grey-darkest py-1">{edu.degree}</h3>
+				<span className="inline-block w-full text-md font-medium text-grey-darkest py-1">{edu.school}</span>
 				<span className="inline-block w-full text-sm font-normal text-grey-darker py-1">
 					<Moment format="MMM YYYY">{edu.from}</Moment> –{' '}
-					{edu.to === null ? (' Present') : (<Moment format="YYYY/MM/DD">{edu.to}</Moment>)}
+					{edu.to === null ? (' Present') : (<Moment format="MMM YYYY">{edu.to}</Moment>)}
 				</span>
 				<span className="inline-block w-full text-sm font-normal text-grey-darker whitespace-pre-line leading-normal py-1">{edu.description}</span>
 				<button
@@ -27,11 +28,14 @@ class Education extends Component {
 				</button>
 			</div>
     	));
+    	const noContentToDisplay = (<p>You haven't filled out this section yet.</p>);
 
         return (
             <div className="education">
-				<h1 className="my-4 mt-8">Education</h1>
-				{education}
+				<h2 className="my-4 mt-8">Education</h2>
+				<div className="text-grey-darker">
+					{education.length ? educationHistory : noContentToDisplay}
+				</div>
             </div>
         );
     }

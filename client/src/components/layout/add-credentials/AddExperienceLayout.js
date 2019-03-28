@@ -7,11 +7,11 @@ class AddExperienceLayout extends Component {
     render() {
         return (
             <div>
-            	<NavBar />
+            	<NavBar {...this.props} />
             	<div className="flex-1 w-full max-w-lg relative text-left mx-auto mt-24 px-4">
             		<AddExperience {...this.props} />
             	</div>
-            	<Footer />
+            	<Footer {...this.props} />
             </div>
         );
     }

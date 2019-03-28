@@ -6,14 +6,16 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
 
-//Load Input Validation
+// Load Input Validation
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 
-// Load User model
+// Load models
 const User = require('../../models/User');
+const Post = require('../../models/Post');
+const Profile = require('../../models/Profile');
 
-// @route 	GET api/users/register
+// @route 	POST api/users/register
 // @desc 	Register user
 // @access 	Public
 router.post('/register', (req, res) => {
@@ -36,8 +38,11 @@ router.post('/register', (req, res) => {
 					default: 'mm' // Default
 				});
 				const newUser = new User({
-					name: req.body.name,
+					firstName: req.body.firstName,
+					lastName: req.body.lastName,
+					name: req.body.firstName + ' ' + req.body.lastName,
 					email: req.body.email,
+					phoneNumber: req.body.phoneNumber,
 					avatar,
 					password: req.body.password
 				});
@@ -53,9 +58,10 @@ router.post('/register', (req, res) => {
 				});
 			}
 		})
+		.catch(err => console.log(err))
 });
 
-// @route 	GET api/users/login
+// @route 	POST api/users/login
 // @desc 	Login User / return JWT Token
 // @access 	Public
 router.post('/login', (req, res) => {
@@ -70,37 +76,46 @@ router.post('/login', (req, res) => {
 	const password = req.body.password;
 
 	// Find user by email
-	User.findOne({ email }).then(user => {
-		if (! user) {
-			errors.email = 'User not found';
-			return res.status(400).json(errors);
-		}
-
-		// Check password
-		bcrypt.compare(password, user.password).then(isMatch => {
-			if (isMatch) {
-				// User Matched
-				// Create JWT Payload
-				const payload = {
-					id: user.id,
-					name: user.name,
-					avatar: user.avatar
-				};
-
-				jwt.sign(
-					payload,
-					keys.secretOrKey,
-					{ expiresIn: 3600 }, (err, token) => {
-					res.json({
-						success: true,
-						token: 'Bearer ' + token
-					});
-				});
-			} else {
-				errors.password = 'Password incorrect';
+	User.findOne({ email })
+		.populate('posts')
+		.populate('profiles')
+		.then(user => {
+			if (! user) {
+				errors.email = 'User not found';
 				return res.status(400).json(errors);
 			}
-		});
+
+			// Check password
+			bcrypt.compare(password, user.password).then(isMatch => {
+				if (isMatch) {
+					// User Matched
+					// Create JWT Payload
+					const payload = {
+						id: user.id,
+						firstName: user.firstName,
+						lastName: user.lastName,
+						name: user.firstName + ' ' + user.lastName,
+						avatar: user.avatar,
+						posts: user.posts,
+						profile: user.profile
+					};
+
+					jwt.sign(
+						payload,
+						keys.secretOrKey,
+						{ expiresIn: 3600 }, (err, token) => {
+						res.json({
+							success: true,
+							token: 'Bearer ' + token,
+							payload
+						});
+					});
+
+				} else {
+					errors.password = 'Password is incorrect';
+					return res.status(400).json(errors);
+				}
+			});
 	});
 });
 
@@ -110,7 +125,9 @@ router.post('/login', (req, res) => {
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
 	res.json({
 		id: req.user.id,
-		name: req.user.name,
+		firstName: req.user.firstName,
+		lastName: req.user.lastName,
+		name: req.user.firstName + ' ' + req.user.lastName,
 		email: req.user.email
 	});
 });

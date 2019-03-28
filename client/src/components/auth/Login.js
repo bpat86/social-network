@@ -56,7 +56,7 @@ class Login extends Component {
 				<div className="flex items-center text-left max-w-sm mx-auto">
 					<form className="bg-white w-full px-8 pt-6 pb-8 mb-4" onSubmit={this.onSubmit}>
 						<TextFieldGroup
-							placeholder="Email Address"
+							placeholder="Email"
 							label="Email"
 							name="email"
 							type="email"
@@ -88,7 +88,7 @@ class Login extends Component {
 							</button>
 						</div>
 						<div className="flex items-center justify-end mt-8">
-							<Link to="/" className="inline-block align-baseline font-medium text-sm text-grey-darker hover:text-black" href="#">
+							<Link to="#" className="inline-block align-baseline font-medium text-sm text-grey-darker hover:text-black">
 							Forgot Password?
 							</Link>
 						</div>

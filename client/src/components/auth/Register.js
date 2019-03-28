@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
@@ -9,8 +9,12 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			firstName: '',
+			lastName: '',
+			userName: '',
 			name: '',
 			email: '',
+			phoneNumber: '',
 			password: '',
 			passwordConfirmed: '',
 			errors: {}
@@ -36,13 +40,17 @@ class Register extends Component {
 	});
 
 	onSubmit = e => {
-		const { name, email, password, passwordConfirmed } = this.state;
+		const { firstName, lastName, userName, name, email, phoneNumber, password, passwordConfirmed } = this.state;
 
 		e.preventDefault();
 
 		const newUser = {
+			firstName,
+			lastName,
+			userName,
 			name,
 			email,
+			phoneNumber,
 			password,
 			passwordConfirmed
 		}
@@ -51,29 +59,37 @@ class Register extends Component {
 	}
 
 	render() {
-		const { name, email, password, passwordConfirmed, errors } = this.state;
+		const { firstName, lastName, userName, name, email, phoneNumber, password, passwordConfirmed, errors } = this.state;
 
 		return (
 			<div>
 				<div className="flex items-center text-left max-w-sm mx-auto">
 					<form className="bg-white w-full px-8 pt-6 pb-8 mb-4" onSubmit={this.onSubmit}>
 						<TextFieldGroup
-							placeholder="Name"
-							label="Name"
-							name="name"
+							placeholder="First Name"
+							label="First Name"
+							name="firstName"
 							type="text"
-							value={name}
+							value={firstName}
 							onChange={this.onChange}
-							error={errors.name}
+							error={errors.firstName}
 						/>
 						<TextFieldGroup
-							placeholder="Email Address"
+							placeholder="Last Name"
+							label="Last Name"
+							name="lastName"
+							type="text"
+							value={lastName}
+							onChange={this.onChange}
+							error={errors.lastName}
+						/>
+						<TextFieldGroup
+							placeholder="Email"
 							label="Email"
 							name="email"
 							type="email"
 							value={email}
 							onChange={this.onChange}
-							info="This site uses Gravitar so if you want a profile image, use a Gravatar email"
 							error={errors.email}
 						/>
 						<TextFieldGroup
@@ -94,7 +110,13 @@ class Register extends Component {
 							onChange={this.onChange}
 							error={errors.passwordConfirmed}
 						/>
-						<div className="flex items-center justify-between mt-12">
+						<div className="flex items-center justify-end mt-8 text-sm text-grey-darker">
+							Already have an account?
+							<Link to="/" className="inline-block align-baseline font-medium text-sm text-indigo ml-2">
+								Login
+							</Link>
+						</div>
+						<div className="flex items-center justify-between mt-8">
 							<button
 								className="bg-indigo-dark text-grey-lightest bg-transparent rounded font-medium text-center leading-tight h-12 m-0 px-4 py-2 cursor-pointer focus:outline-none w-full"
 								type="submit"

@@ -15,6 +15,7 @@ class AddEducation extends Component {
 			fieldofstudy: '',
 			from: '',
 			to: '',
+			current: false,
 			description: '',
 			errors: {},
 			disabled: false

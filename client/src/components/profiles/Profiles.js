@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../common/Spinner';
 import { getProfiles } from '../../actions/profileActions';
+import ProfilePartial from './ProfilePartial';
 
 class Profile extends Component {
 	componentDidMount() {
@@ -17,17 +18,21 @@ class Profile extends Component {
 			profileItems = <Spinner />;
 		} else {
 			if (profiles.length > 0) {
-				profileItems = <h1 className="mt-16">Profiles Here</h1>
+				profileItems = profiles.map(profile => (
+					<ProfilePartial key={profile._id} profile={profile} />
+				))
 			} else {
-				profileItems = <p>No profiles found...</p>
+				profileItems = <p>No profiles yet.</p>
 			}
 		}
 
         return (
             <div className="profiles">
-				<h1 className="my-4">Profiles</h1>
-				<p class="text-grey-darker">Browse and connect with people.</p>
-				{profileItems}
+            	<h1 className="my-4">Profiles</h1>
+                <p className="text-grey-darker">Browse and connect with people.</p>
+                <div className="my-8 text-grey-darker">
+					{profileItems}
+				</div>
             </div>
         );
     }

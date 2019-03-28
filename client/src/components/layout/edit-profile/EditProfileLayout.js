@@ -7,11 +7,11 @@ class EditProfileLayout extends Component {
     render() {
         return (
             <div className="edit-profile-layout">
-            	<NavBar />
+            	<NavBar {...this.props} />
 				<div className="container">
 					<EditProfile {...this.props} />
 				</div>
-				<Footer />
+				<Footer {...this.props} />
             </div>
         );
     }

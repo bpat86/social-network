@@ -7,11 +7,11 @@ class ProfilesLayout extends Component {
     render() {
         return (
             <div className="profiles-layout">
-            	<NavBar />
+            	<NavBar {...this.props} />
 				<div className="container">
 					<Profiles {...this.props} />
 				</div>
-				<Footer />
+				<Footer {...this.props} />
             </div>
         );
     }

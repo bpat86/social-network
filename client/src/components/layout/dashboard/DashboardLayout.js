@@ -7,11 +7,11 @@ class DashboardLayout extends Component {
     render() {
         return (
             <div className="dashboard-layout">
-            	<NavBar />
+            	<NavBar {...this.props} />
 				<div className="container">
 					<Dashboard {...this.props} />
 				</div>
-				<Footer />
+				<Footer {...this.props} />
             </div>
         );
     }

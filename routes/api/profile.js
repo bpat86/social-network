@@ -8,11 +8,9 @@ const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
 
-// Load Profile Model
-const Profile = require('../../models/Profile');
-
-// Load User Profile
+// Load Models
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 
 // @route 	GET api/profile
 // @desc 	Get Current User Profile
@@ -21,7 +19,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 	const errors = {};
 
 	Profile.findOne({ user: req.user.id })
-		.populate('user', ['name', 'avatar'])
+		.populate('user', ['id', 'name', 'avatar', 'posts', 'profile'])
 		.then(profile => {
 			if (! profile) {
 				errors.noprofile = 'There is no profile for this user';
@@ -39,7 +37,7 @@ router.get('/all', (req, res) => {
 	const errors = {};
 
 	Profile.find()
-		.populate('user', ['name', 'avatar'])
+		.populate('user', ['id', 'name', 'avatar', 'posts', 'profile'])
 		.then(profiles => {
 			if (! profiles) {
 				errors.noprofiles = 'There are no profiles';
@@ -60,7 +58,7 @@ router.get('/handle/:handle', (req, res) => {
 	const errors = {};
 
 	Profile.findOne({ handle: req.params.handle })
-		.populate('user', ['name', 'avatar'])
+		.populate('user', ['id', 'name', 'avatar', 'posts', 'profile'])
 		.then(profile => {
 			if (! profile) {
 				errors.noprofile = 'There is no profile for this user';
@@ -78,7 +76,7 @@ router.get('/user/:user_id', (req, res) => {
 	const errors = {};
 
 	Profile.findOne({ user: req.params.user_id })
-		.populate('user', ['name', 'avatar'])
+		.populate('user', ['id', 'name', 'avatar', 'posts', 'profile'])
 		.then(profile => {
 			if (! profile) {
 				errors.noprofile = 'There is no profile for this user';
@@ -108,12 +106,12 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 	profileFields.user = req.user.id;
 
 	if (req.body.handle) profileFields.handle = req.body.handle;
-	if (req.body.company) profileFields.company = req.body.company;
-	if (req.body.website) profileFields.website = req.body.website;
-	if (req.body.location) profileFields.location = req.body.location;
-	if (req.body.bio) profileFields.bio = req.body.bio;
-	if (req.body.status) profileFields.status = req.body.status;
-	if (req.body.githubusername) profileFields.githubusername = req.body.githubusername;
+	if (req.body.company || req.body.company === '') profileFields.company = req.body.company;
+	if (req.body.website || req.body.website) profileFields.website = req.body.website;
+	if (req.body.location || req.body.location === '') profileFields.location = req.body.location;
+	if (req.body.bio || req.body.bio === '') profileFields.bio = req.body.bio;
+	if (req.body.status || req.body.status === '') profileFields.status = req.body.status;
+	if (req.body.githubusername || req.body.githubusername === '') profileFields.githubusername = req.body.githubusername;
 
 	// Skills
 	if (typeof req.body.skills !== undefined) {
@@ -122,11 +120,11 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
 	// Social
 	profileFields.social = {};
-	if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
-	if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
-	if (req.body.twitter) profileFields.social.twitter = req.body.twitter;
-	if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
-	if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
+	if (req.body.youtube || req.body.youtube === '') profileFields.social.youtube = req.body.youtube;
+	if (req.body.facebook || req.body.facebook === '') profileFields.social.facebook = req.body.facebook;
+	if (req.body.twitter || req.body.twitter === '') profileFields.social.twitter = req.body.twitter;
+	if (req.body.instagram || req.body.instagram === '') profileFields.social.instagram = req.body.instagram;
+	if (req.body.linkedin || req.body.linkedin === '') profileFields.social.linkedin = req.body.linkedin;
 
 	Profile.findOne({ user: req.user.id }).then(profile => {
 		if (profile) {
@@ -137,6 +135,11 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 				{ new: true }
 			)
 			.then(profile => res.json(profile));
+			// .then(profile => {
+			// 	User.update({ _id: req.user.id }, { $push: { profile: profile._id }}, (err) => {
+			//         res.json(profile);
+			// 	});
+			// });
 		} else {
 			// Create
 			// Check if handle exists
@@ -150,6 +153,11 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 				new Profile(profileFields)
 					.save()
 					.then(profile => res.json(profile));
+					// .then(profile => {
+					// 	User.update({ _id: req.user.id }, { $push: { profile: profile._id }}, (err) => {
+					//         res.json(profile);
+					// 	});
+					// });
 			})
 		}
 	});

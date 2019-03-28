@@ -7,13 +7,13 @@ class RegisterLayout extends Component {
     render() {
         return (
         	<div className="register-layout">
-    			<NavBar />
+    			<NavBar {...this.props} />
 				<div className="flex-1 flex items-center mt-12">
 					<div className="w-full max-w-screen-xl relative mx-auto px-4">
 						<Register {...this.props} />
 					</div>
 				</div>
-				<Footer />
+				<Footer {...this.props} />
 			</div>
         );
     }

@@ -399,6 +399,7 @@ module.exports = {
     default: '1px',
     '0': '0',
     '2': '2px',
+    '3': '3px',
     '4': '4px',
     '8': '8px',
   },
@@ -621,6 +622,8 @@ module.exports = {
     '4xl': '90rem',
     '5xl': '100rem',
     'full': '100%',
+    'screen-lg': '1000px',
+    'screen-xl': '1200px'
   },
 
 

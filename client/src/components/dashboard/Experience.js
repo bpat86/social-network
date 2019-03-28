@@ -10,13 +10,14 @@ class Experience extends Component {
 	}
 
     render() {
-    	const experience = this.props.experience.map(exp => (
-			<div key={exp._id}>
-				<h3 className="text-xl font-bold text-grey-darkest py-1">{exp.title}</h3>
-				<span className="inline-block w-full text-lg font-medium text-grey-darkest py-1">{exp.company}</span>
+    	const { experience } = this.props;
+    	const workHistory = experience.map(exp => (
+			<div key={exp._id} className="mb-4 py-3 border-t border-grey-lighter">
+				<h3 className="text-lg font-bold text-grey-darkest py-1">{exp.title}</h3>
+				<span className="inline-block w-full text-md font-medium text-grey-darkest py-1">{exp.company}</span>
 				<span className="inline-block w-full text-sm font-normal text-grey-darker py-1">
 					<Moment format="MMM YYYY">{exp.from}</Moment> –{' '}
-					{exp.to === null ? (' Present') : (<Moment format="YYYY/MM/DD">{exp.to}</Moment>)}
+					{exp.to === null ? (' Present') : (<Moment format="MMM YYYY">{exp.to}</Moment>)}
 				</span>
 				<span className="inline-block w-full text-sm font-normal text-grey-darker whitespace-pre-line leading-normal py-1">{exp.description}</span>
 				<button
@@ -27,11 +28,14 @@ class Experience extends Component {
 				</button>
 			</div>
     	));
+    	const noContentToDisplay = (<p>You haven't filled out this section yet.</p>);
 
         return (
             <div className="experience">
-				<h1 className="my-4 mt-6">Experience</h1>
-				{experience}
+				<h2 className="my-4 mt-6">Experience</h2>
+				<div className="text-grey-darker">
+					{experience.length ? workHistory : noContentToDisplay}
+				</div>
             </div>
         );
     }

@@ -3,9 +3,9 @@ import spinner from './spinner.svg';
 
 const Spinner = ({ className }) => {
     return (
-		<div>
+		<div className="flex justify-center items-center">
 			<img
-				className="inline-block w-8 h-8"
+				className="w-8 h-8"
 				src={spinner}
 				alt="Loading..."
 			/>

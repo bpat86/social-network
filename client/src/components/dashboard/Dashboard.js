@@ -21,6 +21,8 @@ class Dashboard extends Component {
     	const { user } = this.props.auth;
 		const { profile, loading } = this.props.profile;
 
+		console.log(user);
+
 		let dashboardContent;
 
 		if (profile === null || loading) {
@@ -29,17 +31,12 @@ class Dashboard extends Component {
 			// Check if logged user has profile data
 			if (Object.keys(profile).length > 0) {
 				dashboardContent = (
-					<div>
-						<p className="text-muted my-4">
-							Welcome <Link to={`/profile/${profile.handle}`}>
-								{user.name}
-							</Link>!
-						</p>
+					<div className="mt-12">
 						<ProfileActions />
 						<Experience experience={profile.experience} />
-						{ profile.education ? (<Education education={profile.education} />) : null }
+						{ profile.education ? (<Education education={profile.education} />) : (<p>You haven't added any of your educational history yet.</p>) }
 						<button
-							className="bg-red-dark text-grey-lightest bg-transparent rounded font-medium text-center leading-tight h-12 m-0 px-4 py-2 cursor-pointer focus:outline-none mt-24"
+							className="bg-red-dark text-grey-lightest bg-transparent rounded font-medium text-center leading-tight h-12 m-0 px-4 py-2 cursor-pointer focus:outline-none mt-16"
 							onClick={this.onDeleteClick}
 							>
 							Delete My Account
@@ -50,8 +47,8 @@ class Dashboard extends Component {
 				// User is logged in, but has no profile
 				dashboardContent = (
 					<div>
-						<h1 className="my-4">Welcome {user.name}!</h1>
-						<p class="text-grey-darker">Looks like you haven't set up a profile yet. Click the button below to do that now.</p>
+						<h1 className="my-4">Hello {user.name},</h1>
+						<p className="text-grey-darker">Looks like you haven't set up a profile yet. Click the button below to do that now.</p>
         				<Link
         					to="/create-profile"
         					title="Create Profile"

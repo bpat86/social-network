@@ -16,5 +16,9 @@
 }
 
 .container {
-	@apply flex-1 w-full max-w-lg relative text-left mx-auto mt-24 px-4;
+	@apply flex-1 w-full max-w-lg relative text-left mx-auto mt-12 px-4;
+}
+
+.container-xl {
+	@apply flex-1 w-full max-w-screen-xl relative text-left mx-auto mt-12 px-4;
 }

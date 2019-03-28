@@ -19,6 +19,10 @@ import EditProfileLayout from './components/layout/edit-profile/EditProfileLayou
 import AddExperienceLayout from './components/layout/add-credentials/AddExperienceLayout';
 import AddEducationLayout from './components/layout/add-credentials/AddEducationLayout';
 import ProfilesLayout from './components/layout/profiles/ProfilesLayout';
+import ProfileLayout from './components/layout/profile/ProfileLayout';
+import PostsLayout from './components/layout/posts/PostsLayout';
+import PostLayout from './components/layout/post/PostLayout';
+import NotFoundLayout from './components/layout/not-found/NotFoundLayout';
 
 import './App.css';
 
@@ -53,6 +57,7 @@ class App extends Component {
 						<Route exact path="/register" component={RegisterLayout} />
 						<Route exact path="/login" component={LoginLayout} />
 						<Route exact path="/profiles" component={ProfilesLayout} />
+						<Route exact path="/profile/:handle" component={ProfileLayout} />
 						<Switch>
 							<PrivateRoute
 								exact
@@ -88,6 +93,21 @@ class App extends Component {
 								component={AddEducationLayout}
 							/>
 						</Switch>
+						<Switch>
+							<PrivateRoute
+								exact
+								path="/newsfeed"
+								component={PostsLayout}
+							/>
+						</Switch>
+						<Switch>
+							<PrivateRoute
+								exact
+								path="/posts/:id"
+								component={PostLayout}
+							/>
+						</Switch>
+						<Route exact path="/not-found" component={NotFoundLayout} />
 					</div>
 				</Router>
 			</Provider>
